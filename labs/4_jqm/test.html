@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>GitHub API</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="//code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="//code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+<script>
+
+$(document).ready(function() {
+	$("#searchBtn").on("click", function(e) {
+
+		//get the search term
+		var search = $("#search").val();
+		if(search == "") return;
+
+		//disable button while we search
+		$(this).attr("disabled","disabled");
+
+		$("#results").html("<i>Doing a search for "+search+"</i>");
+
+		//ok, hit the API
+		$.get("https://api.github.com/search/repositories", {"q":search}, function(res,code) {
+			if(res.items && res.items.length) {
+				var s = "<h2>Results</h2>";
+				for(var i=0, len=res.items.length; i<len; i++) {
+					var entry = res.items[i];
+					s += "<p>"+entry.name+"<br/>";
+					s += "By: " + entry.owner.login+"<br/>";
+					s += "Updated: " + entry.updated_at+"<br/>";
+					s += entry.description;
+					s += "</p>";
+				}
+				$("#results").html(s);
+			}
+			$("#searchBtn").removeAttr("disabled");
+		});
+
+	});
+});
+
+
+</script>
+</head>
+
+<body>
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>GitHub Search</h1>
+	</div>
+
+
+
+	<div data-role="content">	
+		<form>
+			<div data-role="fieldcontain">
+			<label for="search">Search Term:</label>
+			<input type="text" name="search" id="search" value="" />
+			</div>
+			<div data-role="fieldcontain">
+			<button id="searchBtn">Search</button>
+			</div>
+		</form>
+
+		<div id="results">
+		</div>
+
+	</div>
+
+</div>
+
+</body>
+</html>

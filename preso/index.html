@@ -1,0 +1,1482 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Developing with Cordova</title>
+
+		<meta name="description" content="What the title says.">
+		<meta name="author" content="Raymond Camden">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!-- My overrides ... -->
+		<style>
+		ul.left {
+			display: inherit;
+		}
+		</style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h1>Developing with Cordova</h1>
+					<p>
+						<small>Presented by <a href="http://www.raymondcamden.com">Raymond Camden</a> / <a href="http://twitter.com/cfjedimaster">@cfjedimaster</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Do you have...</h2>
+					<ul>
+						<li>Latest Chrome?</li>
+						<li>A text editor of <i>any</i> sort?</li>
+						<li>A web server (Apache/IIS/Node-based) (npm install -g httpster)</li>	
+						<li>An Adobe ID (so we can spam you)</li>
+						<li>Optional But Strongly Recommended: http://developer.android.com/sdk/index.html</li>
+					</ul>
+				</section>
+
+				<section>					
+					<h2>Who am I?</h2>
+					<ul style="float:left;width:60%">
+						<li>Developer for Adobe</li>
+						<li>Web Standards, HTML5, JavaScript, Mobile, ColdFusion</li>
+						<li>Blogging at www.raymondcamden.com</li>
+						<li>Tweeting at cfjedimaster</li>
+					</ul>
+
+					<img src="img/ray.png" class="transparent">
+				</section>
+
+				<section>
+					<h1>Who are you?</h1>
+				</section>
+
+				<section>
+					<h2>The Game Plan</h2>
+					<ul>
+						<li>Overview of Cordova (and PhoneGap)</li>
+						<li>Build Some Stuff!</li>
+						<li>Talk About Some Stuff</li>
+						<li>Bio breaks about once an hour</li>
+					</ul>
+				</section>
+
+				<!-- Overview of PG section -->
+				<section>
+
+					<section>
+							<img src="img/PhoneGapLogo.png">
+					</section>
+
+					<section>
+						<h2>Genesis</h2>
+						<ul>
+							<li>Built at an iPhoneDevCamp in 2009</li>
+							<li>Started by Nitobi</li>
+							<li>Adobe bought Nitobi (2011)</li>
+							<li>Currently at 3.3.0</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>$$$?</h2>
+						<ul>
+							<li>PhoneGap is free</li>
+							<li>No, really, free</li>
+							<li>Open Source</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Apache Cordova</h2>
+						<ul>
+							<li>cordova.apache.org</li>
+							<li>PhoneGap is Adobe's implementation</li>
+							<li class="fragment">PhoneGap == Cordova</li>
+						</ul>
+						<img src="img/cordova_logo_normal_dark.png">
+					</section>
+
+					<section>
+						<h2>Let's get techy</h2>
+						<ul>
+							<li>Creates "Hybrid" applications</li>
+							<li>Native wrapper around a web view</li>
+							<li>HTML (CSS,JS) handles layout</li>
+							<li>Cordova "bridges the gap" to native capabilities</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>About that gap...</h2>
+						<ul>
+							<li>Cordova tries to follow standards</li>
+							<li>When it doesn't need to do anything, it doesn't</li>
+							<li>In the perfect world, Cordova won't exist</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Supported Platforms</h2>
+						<ul>
+							<li>iOS</li>
+							<li>Android</li>
+							<li>Windows Phone 7 (deprecated), 8</li>
+							<li>BlackBerry</li>
+							<li>Bada</li>
+							<li>WebOS</li>
+							<li>Symbian</li>
+						</ul>
+						<br/><br/>
+						<p>
+							<a href="http://phonegap.com/about/feature" target="_new">http://phonegap.com/about/feature</a>
+						</p>
+					</section>
+
+					<section>
+						<h2>Other Platforms</h2>
+						<ul>
+							<li>Firefox OS</li>
+							<li>Mac OSX</li>
+							<li>QT</li>
+							<li>Tizen</li>
+							<li>Ubuntu</li>
+							<li>Windows</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Features (Stuff you can do with JavaScript!)</h2>
+						<ul>
+							<li>Accelerometer - when the device moves</li>
+							<li>Camera - pictures of your cat</li>
+							<li>Capture - audio, video, stills of your cat</li>
+							<li>Compass - for when you're lost in the woods</li>
+							<li>Connection - type of connection</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Features</h2>
+						<ul>
+							<li>Contacts - find and create new friends</li>
+							<li>Device - device and OS version metadata</li>
+							<li>Events - various app/hardware related events</li>
+							<li>File - native file system access (and upload/download)</li>
+							<li>Geolocation - for when you're lost in the woods</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Features</h2>
+						<ul>
+							<li>Globalization - date/number/currency formatting</li>
+							<li>Media - related to audio playback (supports record as well)</li>
+							<li>Notification - visual, audible, and tactile notifications</li>
+							<li>Splashscreen - for your splash screen needs</li>
+							<li>Storage - Mini database</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Unofficial Features</h2>
+						<ul>
+							<li class="fragment">Use any of the 10 million JavaScript libraries</li>
+							<li class="fragment">Use any of the 10 million APIs</li>
+							<li class="fragment">Deploy to app store</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Non-Features</h2>
+						<ul>
+							<li class="fragment">UI</li>
+							<li class="fragment">Native Killer</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Who is using PhoneGap?</h2>
+						<img src="img/pgapps.png">
+					</section>
+
+					<!-- This is the demo of the real app - UnTappd probably -->
+					<section>
+						<h1 title="UnTappd">Real World Demo</h1>
+					</section>
+
+					<section>
+						<h2>How is it done?</h2>
+						<ul>
+							<li>Going from HTML to Binary</li>
+							<li>Making use of the "special" stuff</li>
+							<li>Thinking Differently</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>How is it done?</h2>
+						<ul>
+							<li>Install Node</li>
+							<li>Install cordova via npm: sudo npm install -g cordova</li>
+							<li>Get SDK(s) (technically optional)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>How is it done?</h2>
+						<ul>
+							<li>Command line init to create the project</li>
+							<li>Switch to your editor</li>
+							<li>Edit HTML, simulate, build (via CLI)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h1>Demo</h1>
+						<p>
+						I'll show creating a project and explain what the folders represent.
+						</p>
+					</section>
+
+					<section>
+						<h2>Adding Platforms</h2>
+						<ul>
+							<li>cordova platforms add X (to add something)</li>
+							<li>cordova platforms (to report)</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h1>Demo</h1>
+						<p>
+						I'm going to show adding iOS and Android as well as checking what is there/installed.
+						</p>
+					</section>
+					
+					<section>
+						<h2>Building/Emulating/Testing</h2>
+						<ul>
+							<li class="fragment">prepare</li>
+							<li class="fragment">compile</li>
+							<li class="fragment">build == prepare + compile</li>
+							<li class="fragment">emulate</li>
+							<li class="fragment">run</li>
+						</ul>
+					</section>
+
+					<section>
+						<h1>Demo</h1>
+						<p>
+						</p>
+					</section>
+
+					<!--
+					<section>
+						<h2>How is it done? (For Later...)</h2>
+						<img src="img/Build-Bot.png">
+					</section>
+					-->
+					
+
+					<section>
+						<h2>How do we do the awesome?</h2>
+						<ul>
+							<li class="fragment">Include cordova.js (this will NOT exist in www)</li>
+							<li class="fragment">Wait for "deviceready" event</li>
+							<li class="fragment">plugins for each feature (so to do X, you add the plugin X)</li>
+							<li class="fragment">config.xml (handles settings)</li>
+						</ul>
+					</section>
+
+					<!-- demo of camera app -->
+					<section>
+						<h1>Demo</h1>
+						<p>
+						I'm going to demo the camera API and totally screw it up.
+						</p>
+					</section>
+					
+					<section>
+						<h2>Plugins</h2>
+						<ul>
+						<li><strong>All</strong> core features use plugins</li>
+						<li>Additional features use plugins</li>
+						<li>Everything driven from CLI (list, add, and remove)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h1>Demo</h1>
+						<p>
+							Let's fix the camera demo.
+						</p>
+					</section>
+
+					<!--
+					other demos?
+					contacts
+					compass
+					-->
+
+					<section>
+						<h2>Real World Building</h2>
+						<ul class="fragment">
+							<!--
+							<li>Ideal: Local SDK to Simulator</li>
+							<li>http://developer.android.com/sdk/index.html or http://developer.apple.com</li>
+							<li>Ideal: Mostly in Chrome</li>
+							<li>For Today: Ripple</li>
+							-->
+							<li>Desktop Browser</li>
+							<li>Mobile via Web</li>
+							<li>Ripple Emulator</li>
+							<li>Local SDK to Simulator/Device</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Desktop Browser</h2>
+						<ul class="left fragment">
+							<li>Pro: Super Fast</li>
+							<li>Pro: No setup</li>
+							<li>Pro: Debugging Rocks</li>
+						</ul>
+						<p/>
+						<ul class="left fragment">
+							<li>Con: UI isn't right</li>
+							<li>Con: UX isn't right</li>
+							<li>Con: Features missing</li>
+							<li>Con: Security restrictions</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Mobile Via Web</h2>
+						<ul class="left fragment">
+							<li>Pro: Kinda Fast</li>
+							<li>Pro: Minimal setup</li>
+							<li>Pro: UI and UX testing</li>
+						</ul>
+						<p/>
+						<ul class="left fragment">
+							<li>Con: Features missing</li>
+							<li>Con: Security restrictions</li>
+							<li>Con: <strike>Debugging sucks</strike></li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Ripple Emulator</h2>
+						<ul class="left fragment">
+							<li>Pro: Fast</li>
+							<li>Pro: Similar UI</li>
+							<li>Pro: Free</li>
+							<li>Pro: Security restrictions gone</li>
+						</ul>
+						<p/>
+						<ul class="left fragment">
+							<li>Con: Not 100% supported</li>
+							<li>Con: Still not on the device</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Local SDK to Simulator/Device</h2>
+						<ul class="left fragment">
+							<li>Pro: The Real Deal</li>
+						</ul>
+						<p/>
+						<ul class="left fragment">
+							<li>Con: Slow(ish)</li>
+							<li>Con: Not Free</li>
+							<li>Con: <strike>Debugging *really* sucks</strike></li>
+						</ul>
+						<p/>
+						<p class="fragment">
+							TO BE CLEAR: YOU MUST ALWAYS TEST ON A REAL DEVICE
+						</p>
+					</section>
+
+				</section><!-- end of phonegap block -->
+
+				<!-- web standards -->
+				<section>
+
+					<section>
+						<h1>Web Standards</h1>
+						<img src="img/web_standards_comply.jpg">
+					</section>
+
+					<section>
+						<h2>What are we talking about?</h2>
+						<blockquote cite="http://en.wikipedia.org/wiki/Web_standards">
+							Web standards are the formal, non-proprietary standards and other technical specifications that define and describe aspects of the World Wide Web. In recent years, the term has been more frequently associated with the trend of endorsing a set of standardized best practices for building web sites, and a philosophy of web design and development that includes those methods.
+						</blockquote>
+					</section>
+
+					<!-- Example of blockquote/cite and jQuery -->
+					<section>
+						<h2>What are we REALLY talking about?</h2>
+						<ul>
+							<li>What can HTML do?</li>
+							<li>What can CSS do?</li>
+							<li>What can JavaScript do?</li>
+							<li>(and a bit more, stuff like MathML)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Why are we talking about this?</h2>
+					</section>
+
+					<section>
+						<h2>How do you find out?</h2>
+						<ul>
+							<li>Read the specs</li>
+							<li>Mozilla Developer Network (developer.mozilla.org)</li>
+							<li>WebPlatform.org</li>
+							<li>http://developers.whatwg.org/</li>
+							<li>CanIUse.com</li>
+						</ul>
+					</section>
+
+
+				</section><!-- end web standards block -->
+
+				<!-- Ripple -->
+				<section>
+				
+					<section>
+						<h1>Testing with Ripple</h1>
+					</section>
+			
+					<section>
+						<h2>Note!</h2>
+						<p>
+						If you worked with Ripple in the past and have the Chrome
+						extension (or if you encounter it after this conference), remove
+						it, don't use it, etc!
+						</p>
+					</section>
+					
+					<section>
+						<h2>About Ripple</h2>
+						<ul>
+							<li>Open source project (managed for a while by Blackberry)</li>
+							<li>Just returning from a period of inactivity</li>
+							<li>Set up at Apache: http://ripple.incubator.apache.org/</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Install Ripple</h2>
+						<p>
+						npm install -g ripple-emulator
+						</p>
+					</section>
+				
+					<section>
+						<h2>Using Ripple</h2>
+						<ul>
+						<li>Write your code as normal...</li>
+						<li class="fragment"><strike>Then use cordova prepare</strike></li>
+						<li class="fragment">Run ripple emulate</li>
+						</ul>
+					</section>
+				
+					<section>
+						<h1>Demo</h1>
+						<p>
+						I'll demonstrate the features.
+						</p>
+					</section>
+					
+				</section>
+
+				<section>
+
+					<section>
+						<h1>Testing on Device (Web)</h1>
+					</section>
+
+					<section>
+						<h2>What do you need?</h2>
+						<ul>
+							<li>Mobile browser needs to be able to hit your URL</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Let's Test It!</h2>
+						<img src="img/overconfidence.jpg">
+					</section>
+
+					<section>
+						<h2>Edge Inspect</h2>
+						<img src="img/edge_inspect.png">
+					</section>
+
+					<section>
+						<h2>Edge Inspect</h2>
+						<ul>
+							<li>Free program, Chrome extension, mobile app (iOS and Android)</li>
+							<li>Sync Browsing</li>
+							<li>Inspector</li>
+							<li>Screenshot Taker</li>
+							<li>Available at http://html.adobe.com/edge/inspect/</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Demo/Walkthrough</h2>
+					</section>
+
+				</section>
+				
+				<section>
+					<img src="img/breakout.png">
+				</section>
+								
+				<!-- labs block -->
+				<section>
+
+					<section>
+						<h1>Lab One: Geolocation</h1>
+					</section>
+
+					<section>
+						<h2>Geolocation API</h2>
+						<ul>
+							<li>FYI - not part of HTML5</li>
+							<li>Official Spec: http://dev.w3.org/geo/api/spec-source.html</li>
+							<li>Prompts the user</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Geolocation API</h2>
+						<ul>
+							<li>navigator.geolocation</li>
+							<li>getCurrentPosition</li>
+							<li>watchPosition/clearWatch</li>
+							<li>Options for how precise, how long to try, etc</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Geolocation API: getCurrentPosition</h2>
+						<pre><code>
+function init() {
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(gotLocation,errorHandler);
+  }
+}
+
+function gotLocation(position) {
+  console.dir(position);
+}
+
+function errorHandler(e) {
+  console.dir(e);
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Part One</h2>
+						<ul>
+							<li>Literally do what I just showed you</li>
+							<li>Check the console for the result</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Part Two</h2>
+						<ul>
+							<li>Add User feedback</li>
+							<ul>
+								<li>Tell the user you're getting their location...</li>
+								<li>When done, tell them their long/lat</li>
+							</ul>
+							<li>Bonus points for skipping jQuery</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Part Three</h2>
+						<ul>
+							<li>Google Static Map API</li>
+							<li>Displays a simple map (no interaction)</li>
+							<li>Docs: https://developers.google.com/maps/documentation/staticmaps/</li>
+							<li>http://maps.googleapis.com/maps/api/staticmap?parameters</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Static Map API Required Args</h2>
+						<ul>
+							<li>center: string or lat,long</li>
+							<li>size: widthxheight</li>
+							<li>zoom: 0 to 21+</li>
+							<li>sensor: set it to true</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Demo</h2>
+						<p>
+						http://maps.googleapis.com/maps/api/staticmap?center=30.224089,-92.0198 &zoom=12 &size=400x400 &sensor=false
+						</p>
+						<p>
+						<img src="http://maps.googleapis.com/maps/api/staticmap?center=30.224089,-92.0198&zoom=12&size=400x400&sensor=false">
+						</p>
+					</section>
+
+					<section>
+						<h2>Part Three</h2>
+						<ul>
+							<li>Simple - add the map</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Part Four</h2>
+						<ul>
+							<li>Convert this into PhoneGap/Cordova</li>
+							<li>Make a new project (clean out the crap)</li>
+							<li>Copy code from last part</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h1>Lab Two: Remote APIs</h1>
+					</section>
+
+					<section>
+						<h2>Remote API Examples</h2>
+						<ul>
+							<li>Facial Recognition</li>
+							<li>Text Analysis</li>
+							<li>Data Storage</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>GitHub Search API</h2>
+						<ul>
+							<li>URL based: https://api.github.com/search/repositories?q=X
+</li>
+							<li>Spits out metadata plus array of results</li>
+							<li>Docs: http://developer.github.com/v3/search</li>
+							<li>Unauthenticated calls are limited to <strong><blink>5</blink></strong> per minute!</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Part One</h2>
+						<ul>
+							<li>Prompt for search query</li>
+							<li>Search against GitHub</li>
+							<li>console.dir the results</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>What might have happened??</h2>
+						<ul>
+							<li>Browser blocked the remote XHR</li>
+							<li>Work arounds:
+								<ul>
+									<li>JSON/P</li>
+									<li>CORS</li>
+									<li>Proxy on local server (Node, PHP, ColdFusion)</li>
+								</ul>
+							</li>
+							<li>Ripple fixes this.</li>
+							<li>Or...</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Chrome Flags</h2>
+						<ul>
+							<li>open -a /Applications/Google\ Chrome.app --args --allow-file-access-from-files --disable-web-security</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Part Two</h2>
+						<ul>
+							<li>Display the results</li>
+						</ul>
+					</section>
+				</section><!-- end first labs block -->
+
+				<!-- block for web -->
+
+				<section>
+					<section>
+						<h1>User Interface / Experience</h1>
+						<img src="img/push-pull-fail.jpg">
+					</section>
+
+					<section>
+						<h2>We know what doesn't work...</h2>
+						<img src="img/blogscreenshotmobile.png" width="400">
+					</section>
+
+					<section>
+						<h2>How do we fix it?</h2>
+						<ul>
+							<li>Viewports</li>
+							<li>Fat UI</li>
+							<li>Framework</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Viewport</h2>
+						<ul>
+							<li>Defines how big the web page thinks your monitor is...</li>
+							<li>Mobile browsers assume a large value (980) and scale down</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Viewport</h2>
+						<img src="img/beforemeta.png">
+					</section>
+
+					<section>
+						<h2>Viewport - Override</h2>
+						<pre><code>
+&lt;meta name="viewport" content="width=320"&gt;
+						</code></pre>
+					</section>
+
+
+					<section>
+						<h2>Viewport</h2>
+						<img src="img/aftermeta.png">
+					</section>
+
+					<section>
+						<h2>Viewport - Even Better</h2>
+						<pre><code>
+&lt;meta name="viewport" content="width=device-width"&gt;
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Viewport - More options</h2>
+						<ul>
+							<li>initial-scale=1</li>
+							<li>maximum-scale and minimum-scale</li>
+							<li>user-scalable</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Fat UI</h2>
+							<p>Just making things easier to hit</p>
+						<img src="img/fat.png">
+					</section>
+
+					<section>
+						<h1>Lab 3 - UI</h1>
+					</section>
+
+					<section>
+						<h2>Goals</h2>
+						<ul>
+							<li>Take the GitHub demo and add the viewport</li>
+							<li>Then add CSS to "fatten" the inputs</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Using a Framework</h2>
+						<ul>
+							<li>Twitter Bootstrap</li>
+							<li>jQuery Mobile</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>jQuery Mobile</h2>
+						<ul>
+							<li>Enhances UI by default</li>
+							<li>Creates widgets (lists, dialogs, etc)</li>
+							<li>Allows for a single page app</li>
+							<li>jquerymobile.com (v1.4.0 as of now)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Example</h2>
+						<pre><code>
+&lt;!DOCTYPE html&gt; 
+&lt;html&gt; 
+&lt;head&gt; 
+	&lt;title&gt;My Page&lt;/title&gt; 
+	&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt; 
+	&lt;link rel=&quot;stylesheet&quot; href=&quot;http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css&quot; /&gt;
+	&lt;script src=&quot;http://code.jquery.com/jquery-1.8.2.min.js&quot;&gt;&lt;/script&gt;
+	&lt;script src=&quot;http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt; 
+&lt;body&gt; 
+
+&lt;div data-role=&quot;page&quot;&gt;
+
+	&lt;div data-role=&quot;header&quot;&gt;
+		&lt;h1&gt;My Title&lt;/h1&gt;
+	&lt;/div&gt;&lt;!-- /header --&gt;
+
+	&lt;div data-role=&quot;content&quot;&gt;	
+		&lt;p&gt;Hello world&lt;/p&gt;		
+	&lt;/div&gt;&lt;!-- /content --&gt;
+
+&lt;/div&gt;&lt;!-- /page --&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+						</code></pre>
+					</section>
+
+					<section>
+						<img src="img/jqm1.png">
+					</section>
+
+					<section>
+						<h2>Another Example</h2>
+						<pre><code>
+&lt;ul data-role="listview" data-inset="true"&gt;
+&lt;li&gt;Item 1&lt;/li&gt;
+&lt;li&gt;Item 2&lt;/li&gt;
+&lt;li&gt;Item 3&lt;/li&gt;
+&lt;/ul&gt;
+						</code></pre>
+					</section>
+
+					<section>
+						<img src="img/jqm2.png">
+					</section>
+
+					<section>
+						<h2>Yet Another Example</h2>
+						<pre><code>
+&lt;form&gt;
+	&lt;div data-role=&quot;fieldcontain&quot;&gt;
+	&lt;label for=&quot;name&quot;&gt;Text Input:&lt;/label&gt;
+	&lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot; value=&quot;&quot; /&gt;
+	&lt;/div&gt;
+	&lt;div data-role=&quot;fieldcontain&quot;&gt;
+	&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Send&quot; /&gt;
+	&lt;/div&gt;
+&lt;/form&gt;
+						</code></pre>
+					</section>
+
+					<section>
+						<img src="img/jqm3.png">
+					</section>
+
+					<section>
+						<h1>Lab 4 - jQuery Mobile</h1>
+					</section>
+
+					<section>
+						<h2>Goals</h2>
+						<ul>
+							<li>Add jQuery Mobile to the GitHub Search demo</li>
+						</ul>
+					</section>
+
+				</section><!-- end of ui one -->
+
+				<!-- 
+				the section that doesn't make sense to me
+				turning into the labs/exercises section
+				-->
+				<section>
+					<section>
+						<h1>More Labs</h1>
+					</section>
+					<!--
+					<section>
+						<h2>Review</h2>
+						<ul>
+							<li>A JavaScript file is used to make the bridge.</li>
+							<li>There is a special event you wait for - deviceready (more on this in a moment)</li>
+							<li>The rest is just checking the PG docs</li>
+						</ul>
+					</section>
+					-->
+					<section>
+						<h2>Device API</h2>
+						<ul>
+							<li>Read only</li>
+							<li>global device object</li>
+							<li>Details:
+								<ul>
+									<li>model</li>
+									<li>cordova</li>
+									<li>platform</li>
+									<li>uuid</li>
+									<li>version</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Example</h2>
+						<pre><code>
+document.querySelector("#status").innerHTML = device.model;
+						</code></pre>
+					</section>
+
+					<section>
+						<h1>Lab Five: Device API</h1>
+					</section>
+
+					<section>
+						<h2>Goals</h2>
+						<ul>
+							<li>Use the deviceready event</li>
+							<li>Display on the page the device values: model, cordova, platform, uuid, version</li>
+							<li>Reminder: cordova create X, cordova platforms add android, cordova prepare, ripple emulate</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Accelerometer API</h2>
+						<ul>
+							<li>Like Geolocation: getCurrentAcceleration, watchAcceleration, and clearWatch</li>
+							<li>Like Geolocation: Both take a success/error handler.</li>
+							<li>Ditto: Supports options (just frequency)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Example</h2>
+						<pre><code>
+navigator.accelerometer.getCurrentAcceleration(gotAcc,errHandler);
+
+function gotAcc(acc) {
+	//From docs
+	alert('Acceleration X: ' + acceleration.x + '\n' +
+              'Acceleration Y: ' + acceleration.y + '\n' +
+              'Acceleration Z: ' + acceleration.z + '\n' +
+              'Timestamp: '      + acceleration.timestamp + '\n');
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Example</h2>
+						<pre><code>
+wID = navigator.accelerometer.watchAcceleration(gotAcc,errHandler);
+
+function gotAcc(acc) {
+	//From docs
+	alert('Acceleration X: ' + acceleration.x + '\n' +
+              'Acceleration Y: ' + acceleration.y + '\n' +
+              'Acceleration Z: ' + acceleration.z + '\n' +
+              'Timestamp: '      + acceleration.timestamp + '\n');
+    if(something) navigtor.accelerometer.clearWatch(wid);
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h1>Lab Six: Accelerometer API</h1>
+					</section>
+
+					<section>
+						<h2>Goals</h2>
+						<ul>
+							<li>Watch for a "shake"</li>
+							<li>Update a random number from 1-6</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>What happens if...</h2>
+						<p>
+						You open your PhoneGap/Cordova app offline?
+						</p>
+					</section>
+					
+					<section>
+						<h2>Working with Offline/Online Events and the Connection API</h2>
+						<ul>
+							<li>Your app should do *something* when offline</li>
+							<li>"offline" and "online" are events you can listen for</li>
+							<li>The Connection object returns one of: 
+								<ul>
+									<li>Connection.UNKNOWN</li>
+									<li>Connection.ETHERNET</li>
+									<li>Connection.WIFI</li>
+									<li>Connection.CELL (and _2G and _3G and _4G)</li>
+									<li>Connection.NONE</li>
+								</ul>
+							</li>
+							<li>navigator.connection.type</li>
+						</ul>
+					</section>
+
+					<section>
+						<h1>Lab Seven: Adding Network Support</h1>
+					</section>
+
+					<section>
+						<h2>Goals</h2>
+						<ul>
+							<li>Take the GitHub demo and check Connection on startup</li>
+							<li>Add event handlers for offline/online</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Storage</h2>
+						<ul>
+							<li>LocalStorage</li>
+							<li>WebSQL</li>
+							<li>File System</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>LocalStorage</h2>
+						<ul>
+							<li>Web spec, not PhoneGap</li>
+							<li>Stores key/value pairs</li>
+							<li>Up to 5 megs</li>
+							<li>Has a "session" version</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Example</h2>
+						<pre><code>
+localStorage.name = "somevalue";
+console.log(localStorage.name);
+
+localStorage.setItem("name","somevalue");
+console.log(localStorage.getItem("name"));
+localStorage.removeItem("name"); localStorage.clear();
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>PhoneGap uses?</h2>
+						<ul>
+							<li>Preferences</li>
+							<li>Username and Password</li>
+							<li>Search History</li>
+						</ul>
+					</section>
+
+					<section>
+						<h1>Lab Eight: LocalStorage</h1>
+					</section>
+
+					<section>
+						<h2>Goals</h2>
+						<ul>
+							<li>Take the GitHub API and remember their last search</li>
+							<li>Add a "Welcome" alert/notification for their first time</li>
+							<li>Extra credit: Remember the last few searches and provide a UI to reselect them.</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>WebSQL</h2>
+						<ul>
+							<li>Dead spec walking</li>
+							<li>Mini database in your browser</li>
+							<li>SQLite based</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Example</h2>
+						<pre><code>
+//from docs
+var db = window.openDatabase("test", "1.0", "Test DB", 1000000);
+db.transaction(populateDB, errorCB, successCB);
+
+function populateDB(tx) {
+     tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+     tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+     tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+}
+
+function errorCB(err) {
+    alert("Error processing SQL: "+err.code);
+}
+
+function successCB() {
+    alert("success!");
+}							
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Result Set Example</h2>
+						<pre><code>
+function queryDB(tx) {
+    tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
+}
+
+function querySuccess(tx, results) {
+    var len = results.rows.length;
+    console.log("DEMO table: " + len + " rows found.");
+    for (var i=0; i&lt;len; i++){
+        console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+    }
+}
+
+function errorCB(err) {
+    alert("Error processing SQL: "+err.code);
+}
+
+var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+db.transaction(queryDB, errorCB);
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>PhoneGap uses?</h2>
+						<ul>
+							<li>User generated content</li>
+							<li>Offline storage</li>
+						</ul>
+					</section>
+
+					<section>
+						<h1>Demo</h1>
+					</section>
+
+					<section>
+						<h2>File System</h2>
+						<ul>
+							<li>Typical file system stuff (CRUD file+dir)</li>
+							<li>FileTransfer (upload and download)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h1>Example</h1>
+						<p>
+							Ok, I'm cheating, let's head to the docs!
+						</p>
+					</section>
+
+				</section>
+				<!--  file io -->
+
+				<!-- break -->
+				<section>
+					<section data-background="img/6608432125_ed2bde82da_z.jpg">
+					</section>
+					<!-- photo credit: http://www.flickr.com/photos/dannyelbrazil/ -->
+				</section>
+				<!-- PhoneGap Build -->
+				<section>
+
+					<section>
+						<h1>PhoneGap Build</h1>
+						<img src="img/Build-Bot.png">
+					</section>
+
+					<section>
+						<h2>The 411</h2>
+						<ul>
+							<li>Web based platform to do builds</li>
+							<li>Supports iOS, Android, Windows Phone, Blackberry, webOS, Symbian</li>
+							<li>Has an API too</li>
+							<li>NO SDKS NO COMPILING NO MESS!</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>$$$</h2>
+						<img src="img/pgbplans.png">
+					</section>
+
+					<section>
+						<h1>Walkthrough</h1>
+					</section>
+
+					<section>
+						<h1>Lab 9: PhoneGap Build</h1>
+					</section>
+
+					<section>
+						<h2>Goals</h2>
+						<ul>
+							<li>Sign up</li>
+							<li>Make a file, any file</li>
+							<li>Upload it</li>
+							<li>Winning</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Some Details</h2>
+						<ul>
+							<li>Your zip, or repo, should *not* include cordova.js</li>
+							<li>... but your HTML still <i>references</i> it</li>
+							<li>config.xml file helps build (optional)</li>
+							<li>plugins are still needed (see next few slides)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>config.xml</h2>
+						<ul>
+							<li>Defines various settings</li>
+							<li>some are platform specific...</li>
+							<li>splash screen, icons, Android permission</li>
+							<li><a href="https://raw.github.com/phonegap/phonegap-start/master/www/config.xml" target="_new">Example</a></li>
+							<li>This is also where you enable core features</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>PGB and Plugins</h2>
+						<ul>
+							<li>Add to your config.xml: &lt;gap:plugin name="org.apache.cordova.camera" /&gt;</li>
+							<li>PGB page will show this</li>
+						</ul>
+						<img src="img/pluginsview.jpg">
+					</section>
+					
+					<section>
+						<h2>Hydration</h2>
+						<img src="img/awesomesauce.jpg">
+					</section>
+
+					<section>
+						<img src="img/hydration_settings.png">
+					</section>
+
+					<section>
+						<img src="img/hydration1.png">
+					</section>
+
+					<section>
+						<img src="img/hydration2.png">
+					</section>
+
+					<section>
+						<h2>PhoneGap CLI</h2>
+						<ul>
+							<li>Automatic PGB support</li>
+						</ul>
+					</section>
+
+				</section><!-- end PG Build -->
+
+				<!-- plugins -->
+				<section>
+
+					<section>
+						<h1>Custom Plugins</h1>
+					</section>
+
+					<section>
+						<h2>Plugins</h2>
+						<ul>
+							<li>Written in their native language (that follows an API)</li>
+							<li>Ship with a JavaScript wrapper</li>
+							<li>Include them in your project</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Examples</h2>
+						<ul>
+							<li>TTS</li>
+							<li>Barcode scanner</li>
+							<li>SMS</li>
+							<li>Intents</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>PhoneGap Build Support</h2>
+						<p>
+						Check here: <a href="https://build.phonegap.com/plugins" target="_new">https://build.phonegap.com/plugins</a>
+						</p>
+					</section>
+
+					<section>
+						<h2>Example</h2>
+						<p>
+						https://github.com/macdonst/SpeechSynthesisPlugin
+						</p>
+						<!-- http://www.raymondcamden.com/index.cfm/2013/9/6/Working-with-Plugins-in-PhoneGap-30#c81324BC1-F758-1E2E-5B3167C61D4281B9 -->
+						<!-- https://github.com/macdonst/SpeechSynthesisPlugin -->
+					</section>
+
+				</section><!-- end plugins -->
+
+				<!-- debugging -->				
+				<section>
+
+					<section>
+						<h1>Debugging</h1>
+					</section>
+
+					<section data-background="img/kirk.jpg">
+					</section>
+
+					<section>
+						<h2>Your options</h2>
+						<ul>
+							<li>Desktop</li>
+							<li>Remote debugging (mobile web, Chrome/Safari)</li>
+							<li>weinre</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Remote Debugging</h2>
+						<p>
+							Demo
+						</p>
+					</section>
+
+				</section>
+
+
+				<section>
+
+					<section>
+						<h1>Wrapping Up</h1>
+					</section>
+
+					<section data-background="img/damnfastcar.jpg">
+						<h1 style="background-color:#c0c0c0;opacity:0.9">Performance</h1>
+					</section>
+					
+					<section>
+						<h2>Your Device</h2>
+						<ul>
+							<li>It is amazing</li>
+							<li>It is beautiful</li>
+							<li>It let's you do this...</li>
+						</ul>
+						<img class="fragment" src="img/angrybirds.jpg">
+					</section>
+
+					<section>
+						<h2>But it is not a desktop!</h2>
+						<ul>
+							<li>CPU is <u>roughly</u> 1/4 of a desktop</li>
+							<li>Graphics power not even close</li>
+							<li>RAM is living in 2005</li>
+							<li>You will <b>not</b> be online and if you are, it will inconsistently suck</li>
+							<li>And of course, smaller screens</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>And it is... different</h2>
+						<ul>
+							<li>click versus touch</li>
+							<li class="fragment"><i>Chrome has a nice trick for this</i></li>
+						</ul>
+					</section>
+
+					<!--
+					<section>
+						<h2>Some Thoughts</h2>
+						<ul>
+							<li>jQuery is not as small as you think it is</li>
+							<li>Zepto.js (zeptojs.com)</li>
+						</ul>
+					</section>
+					-->
+					
+					<section>
+						<h2>Get to know the details...</h2>
+						<img src="img/atrice.png">
+					</section>
+				</section>
+
+				<!-- maybe: globalization -->
+				<!-- phonegap as part of a native app -->
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+	console.log('change');
+	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
+	var notes = event.currentSlide.querySelector(".notes");
+	if(notes) {
+		console.info(notes.innerHTML.replace(/\n\s+/g,'\n'));
+	}
+} );
+		</script>
+
+	</body>
+</html>

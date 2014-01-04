@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Twitter API</title>
+<style>
+p {
+	background-color: #d0d0d0;
+	margin-bottom:10px;
+}
+p img {
+	margin-right: 10px;
+	float: left;
+}
+</style>
+<script src="jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+
+<script>
+document.addEventListener("deviceready", init, false);
+
+function init() {
+
+	document.addEventListener("online", toggleCon, false);
+	document.addEventListener("offline", toggleCon, false);
+
+	if(localStorage.lastSearch) {
+		$("#search").val(localStorage.lastSearch)
+	}
+
+	if(!localStorage.numvisits) {
+		navigator.notification.alert("Welcome to the App!", function() {}, "Welcome!");
+		localStorage.numvisits = 1;
+	} else {
+		localStorage.numvisits = parseInt(localStorage.numvisits) + 1;
+	}
+
+	if(navigator.network.connection.type == Connection.NONE) {
+		navigator.notification.alert("Sorry, you are offline.", function() {}, "Offline!");
+	} else {
+		setupButtonHandler();
+	}
+
+}
+
+function toggleCon(e) {
+	console.log("Called",e.type);
+	if(e.type == "offline") {
+		$("#searchBtn").off("touchstart");
+		navigator.notification.alert("Sorry, you are offline.", function() {}, "Offline!");
+	} else {
+		navigator.notification.alert("Woot, you are back online.", function() {}, "Online!");
+		setupButonHandler();
+	}
+}
+
+function setupButtonHandler() {
+
+	$("#searchBtn").on("touchstart", function(e) {
+
+		//get the search term
+		var search = $("#search").val();
+		if(search == "") return;
+
+		//remember it
+		localStorage.lastSearch = search;
+
+		//disable button while we search
+		$(this).attr("disabled","disabled");
+
+		$("#results").html("<i>Doing a search for "+search+"</i>");
+
+		//ok, hit the API
+		$.get("https://api.github.com/search/repositories", {"q":search}, function(res,code) {
+			if(res.items && res.items.length) {
+				var s = "<h2>Results</h2>";
+				for(var i=0, len=res.items.length; i<len; i++) {
+					var entry = res.items[i];
+					s += "<p>"+entry.name+"<br/>";
+					s += "By: " + entry.owner.login+"<br/>";
+					s += "Updated: " + entry.updated_at+"<br/>";
+					s += entry.description;
+					s += "</p>";
+				}
+				$("#results").html(s);
+			}
+			$("#searchBtn").removeAttr("disabled");
+		});
+
+	});
+};
+
+
+</script>
+</head>
+
+<body>
+
+<input type="text" id="search" placeholder="Enter Search Term"><br/>
+<button id="searchBtn">Search</button>
+
+<div id="results">
+</div>
+
+</body>
+</html>

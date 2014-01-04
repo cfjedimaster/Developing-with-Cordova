@@ -1,0 +1,3 @@
+# view AndroidManifest.xml #generated:52
+-keep class org.camden.test4.test4 { <init>(...); }
+

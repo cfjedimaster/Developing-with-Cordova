@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>GitHub API</title>
+<style>
+p {
+	background-color: #d0d0d0;
+	margin-bottom:10px;
+}
+p img {
+	margin-right: 10px;
+	float: left;
+}
+</style>
+<script src="jquery-2.0.0.min.js"></script>
+<script>
+
+$(document).ready(function() {
+	$("#searchBtn").on("click", function(e) {
+
+		//get the search term
+		var search = $("#search").val();
+		if(search == "") return;
+
+		//disable button while we search
+		$(this).attr("disabled","disabled");
+
+		$("#results").html("<i>Doing a search for "+search+"</i>");
+
+		//ok, hit the API
+		$.get("https://api.github.com/search/repositories", {"q":search}, function(res,code) {
+			if(res.items && res.items.length) {
+				var s = "<h2>Results</h2>";
+				for(var i=0, len=res.items.length; i<len; i++) {
+					var entry = res.items[i];
+					s += "<p>"+entry.name+"<br/>";
+					s += "By: " + entry.owner.login+"<br/>";
+					s += "Updated: " + entry.updated_at+"<br/>";
+					s += entry.description;
+					s += "</p>";
+				}
+				$("#results").html(s);
+			}
+			$("#searchBtn").removeAttr("disabled");
+		});
+
+	});
+});
+
+
+</script>
+</head>
+
+<body>
+
+<input type="text" id="search" placeholder="Enter Search Term"><br/>
+<button id="searchBtn">Search</button>
+
+<div id="results">
+</div>
+
+</body>
+</html>
