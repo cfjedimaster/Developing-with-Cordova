@@ -1,4 +1,0 @@
-
-
-1) first part is overview of cordova
-bio
